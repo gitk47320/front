@@ -7,8 +7,6 @@ import Login from './component/login.js'
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-      </header>
       <Login />
     </div>
   );
