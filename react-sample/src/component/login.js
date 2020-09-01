@@ -26,42 +26,39 @@ class Login extends Component {
   onSubmit(event) {
     event.preventDefault();
     console.log("post!!!");
-    console.log(this.state);
+    const headers = {
+      'Content-Type': 'application/json',
+    }
     axios({
           method : "POST",
           url : "http://localhost:3000/auth/sign_in", 
-          data : { email: this.state.email, password: this.state.password }
+          data : { email: this.state.email, password: this.state.password },
+          headers: headers
           })
           .then((response) => {
             console.log("login success");
+            //とりあえずローカルストレージに保存するが
+            //セキュリティ的によくないので後でちゃんとやる。
+            //せめてcookie保存とかにしたい。
+            window.localStorage.setItem('uid', response.headers['uid']);
+            window.localStorage.setItem('access-token', response.headers['access-token']);
+            window.localStorage.setItem('client', response.headers['client']);
+            this.props.history.push('/articles');
           })
           .catch((error) => {
             console.log("login failed");
           })
   }
 
-  // async authenticate() {
-  //   await axios
-  //     .post('http://localhost:3000/auth/sign_in', {
-  //     })
-  //     .then(response => { 
-  //       const data = response.status;
-  //       console.log(data);
-  //       this.setState({
-  //         info : data[0]
-  //       });
-  //     });
-  // }
- 
   render() {
     return (
     <div className = "login">
       <form onSubmit = {this.onSubmit}>
         ログイン
-        <div class ="email" >
+        <div className ="email" >
           <TextField required label="メールアドレス" variant="outlined" value = {this.state.email} onChange = {this.onEmailChange} />
         </div>
-        <div class = "password" >
+        <div className = "password" >
           <TextField required label="パスワード" type="password" autoComplete="current-password" variant="outlined" value = {this.state.password} onChange = {this.onPasswordChange} />
         </div>
         <Button variant="outlined" type = "submit">ログイン</Button>

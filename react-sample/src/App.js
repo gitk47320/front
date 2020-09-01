@@ -1,14 +1,21 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import GetAllArticle from './component/getallArticle'
+import { Switch, BrowserRouter,Route } from 'react-router-dom';
+import PrivateRoute from './component/privateroute.js'
+import Articles from './component/articles.js'
 import './App.css';
 import Login from './component/login.js'
+// import { Route, Router } from 'react-router';
 
 function App() {
   return (
-    <div className="App">
-      <Login />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Switch>
+          <Route path = "/login" component={Login} />
+          <PrivateRoute path = '/articles' component={Articles} />
+        </Switch>
+      </div>
+    </BrowserRouter>
   );
 }
 
