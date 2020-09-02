@@ -9,11 +9,11 @@ class Articles extends Component {
     this.state = {
       info: []
     };
-    this.getData = this.getData.bind(this);
+    // this.getData = this.getData.bind(this);
   }
 
-  async getData() {
-    await axios
+  componentWillMount() {
+    axios
       .get('http://localhost:3000/articles')
       .then(response => { 
         const articles = response.data.articles;
@@ -26,27 +26,26 @@ class Articles extends Component {
  
   render() {
     return (
-      <div>
-        <TableContainer component = {Paper} width= "50%">
-          <Table className = {classes.table} size="small" aria-label="a dense table">
-            <TableHead>
-              <TableRow>
-                <TableCell>記事のタイトル</TableCell>
+    <div className = "articles">
+      <TableContainer component = {Paper}>
+        <Table size="small" aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>記事のタイトル</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {this.state.info.map( (article) => (
+              <TableRow key = {article.name}>
+                <TableCell component = "th" scope = "row">
+                  {article.title}
+                </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {this.state.info.map( (article) => (
-                <TableRow key = {article.name}>
-                  <TableCell component = "th" scope = "row">
-                    {article.title}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Button variant="contained" color="primary" onClick={this.getData}>info get</Button>
-      </div>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
     );
   }
 }
